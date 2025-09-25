@@ -53,10 +53,7 @@ class Todo {
   // Get todo by ID
   static async findById(id) {
     try {
-      const [rows] = await promisePool.query(
-        "SELECT * FROM todos WHERE id = ?",
-        [id]
-      );
+      const [rows] = await promisePool.query("SELECT * FROM todos WHERE id = ?", [id]);
       if (rows.length === 0) {
         return {
           code: 400,
@@ -90,10 +87,7 @@ class Todo {
         };
       }
 
-      const [result] = await promisePool.query(
-        "INSERT INTO todos (name, status, address, age) VALUES (?, ?,?,?)",
-        [name, status, address, age]
-      );
+      const [result] = await promisePool.query("INSERT INTO todos (name, status, address, age) VALUES (?, ?,?,?)", [name, status, address, age]);
 
       return {
         code: 200,
@@ -110,7 +104,7 @@ class Todo {
   }
 
   // Update todo
-  static async update(id, name, status) {
+  static async update(id, name, status, age, address) {
     try {
       // First check if todo exists
       const existingTodo = await this.findById(id);
@@ -122,10 +116,7 @@ class Todo {
         };
       }
 
-      const [result] = await promisePool.query(
-        "UPDATE todos SET name = ?, status = ? WHERE id = ?",
-        [name, status, id]
-      );
+      const [result] = await promisePool.query("UPDATE todos SET name = ?, status = ?, age = ?, address = ? WHERE id = ?", [name, status, age, address, id]);
 
       if (result.affectedRows === 0) {
         return {
@@ -152,10 +143,7 @@ class Todo {
   // Delete todo
   static async delete(id) {
     try {
-      const [result] = await promisePool.query(
-        "DELETE FROM todos WHERE id = ?",
-        [id]
-      );
+      const [result] = await promisePool.query("DELETE FROM todos WHERE id = ?", [id]);
 
       if (result.affectedRows === 0) {
         return {
@@ -192,10 +180,7 @@ class Todo {
         };
       }
 
-      const [result] = await promisePool.query(
-        "UPDATE todos SET status = NOT status WHERE id = ?",
-        [id]
-      );
+      const [result] = await promisePool.query("UPDATE todos SET status = NOT status WHERE id = ?", [id]);
 
       if (result.affectedRows === 0) {
         return {

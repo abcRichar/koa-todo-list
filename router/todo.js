@@ -104,9 +104,9 @@ router.post("/todos", async (ctx) => {
 router.put("/todos/:id", async (ctx) => {
   try {
     const id = parseInt(ctx.params.id);
-    const { name, status } = ctx.request.body || {};
+    const { name, status, age, address } = ctx.request.body || {};
 
-    if (name === undefined && status === undefined) {
+    if (name === undefined && status === undefined && age === undefined && address === undefined) {
       ctx.status = 400;
       ctx.body = {
         code: 400,
@@ -131,7 +131,9 @@ router.put("/todos/:id", async (ctx) => {
     const result = await Todo.update(
       id,
       name !== undefined ? name : existingTodo.data.name,
-      status !== undefined ? status : existingTodo.data.status
+      status !== undefined ? status : existingTodo.data.status,
+      age !== undefined ? age : existingTodo.data.age,
+      address !== undefined ? address : existingTodo.data.address
     );
 
     ctx.status = result.code;
